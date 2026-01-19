@@ -274,10 +274,6 @@ export interface FormBuilderBlock {
   blockType: 'formBuilder';
 }
 
-export type BlockBaseProps = {
-  disableInnerContainer?: boolean
-}
-
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
