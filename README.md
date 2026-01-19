@@ -1,67 +1,117 @@
-# Payload Blank Template
+# Restroworks Assignment – Round 2  
+Next.js + PayloadCMS (Blank Template)
 
-This template comes configured with the bare minimum to get started on anything you need.
+## Overview
 
-## Quick start
+This project is a CMS-powered website prototype built using **Next.js (App Router)** and **PayloadCMS**, created from the **Payload blank template**.  
+It demonstrates CMS modeling, frontend integration, SEO best practices, cloud media handling, and production deployment.
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+The project fulfills the requirements outlined in the Restroworks Round 2 assignment.
 
-## Quick Start - local setup
+---
 
-To spin up this template locally, follow these steps:
+## Tech Stack
 
-### Clone
+### Frontend
+- Next.js 14+ (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- next/image for image optimization
+- SSR / SSG where applicable
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+### Backend (CMS)
+- PayloadCMS (v3)
+- MongoDB
+- Payload Blank Template
 
-### Development
+### Media & Storage
+- @payloadcms/plugin-cloud-storage
+- @payloadcms/storage-vercel-blob
+- Vercel Blob Storage
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+### Deployment
+- Vercel (Frontend + Payload CMS)
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+---
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+## Pages Implemented
 
-#### Docker (Optional)
+### Homepage
+- Modular CMS-driven layout
+- Reusable blocks:
+  - Hero
+  - Features
+  - Testimonials
+  - Call To Action (CTA)
+- Fully responsive design
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+### Contact Page
+- Contact form connected to PayloadCMS
+- Form submissions stored in CMS
 
-To do so, follow these steps:
+---
 
-- Modify the `MONGODB_URL` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+## CMS Modeling
 
-## How it works
-
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+The CMS is designed for real-world content editing and scalability.
 
 ### Collections
+- **Pages**
+  - Modular block-based layout
+  - SEO fields (title, description)
+  - Localization support
+- **Contact Submissions**
+  - Stores contact form entries
+- **Media**
+  - Handles image uploads via Vercel Blob Storage
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+### Blocks
+- Hero
+- Feature List
+- Testimonials
+- CTA
 
-- #### Users (Authentication)
+All blocks are reusable and configurable from the Payload Admin UI.
 
-  Users are auth-enabled collections that have access to the admin panel.
+---
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+## Localization (i18n)
 
-- #### Media
+- Supports English and one additional language
+- Selective block-level translations
+- Frontend language switcher
+- Localized content fetched dynamically from PayloadCMS
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+---
 
-### Docker
+## SEO & Performance
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+- SEO metadata (title & description) managed from CMS
+- sitemap.xml and robots.txt configured
+- Image optimization using next/image
+- SSR / SSG used where appropriate
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+---
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+## Image Uploads (Vercel Blob)
 
-## Questions
+Image uploads are handled using **Vercel Blob Storage**, integrated with PayloadCMS via the cloud storage plugin.
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+### Benefits
+- No local file system dependency
+- Optimized for Vercel deployments
+- Secure and scalable media handling
+
+---
+
+## Environment Variables
+
+Create a `.env` file with the following values:
+
+```env
+PAYLOAD_SECRET=your-secret-key
+MONGODB_URI=your-mongodb-uri
+
+BLOB_READ_WRITE_TOKEN=your-vercel-blob-token
+NEXT_PUBLIC_SERVER_URL=https://your-vercel-app.vercel.app
