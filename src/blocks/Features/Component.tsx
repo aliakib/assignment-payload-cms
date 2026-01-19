@@ -1,7 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 
-export const FeaturesBlock = ({ heading, items }: any) => {
+import { FeaturesBlock as FeaturesBlockType } from '@/payload-types';
+
+export const FeaturesBlock: React.FC<FeaturesBlockType> = ({ heading, items }) => {
   return (
     <section className="container mb-16">
       <div className="animate-on-scroll">
@@ -9,9 +11,9 @@ export const FeaturesBlock = ({ heading, items }: any) => {
           <h2>{heading}</h2>
         </div>
         <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 gap-y-4 gap-x-4 lg:gap-y-8 lg:gap-x-8 xl:gap-x-8">
-          {items?.map((item: any, index: number) => {
+          {items?.map((item, index: number) => {
             if (typeof item === 'object' && item !== null) {
-              const { title, description, image: metaImage } = item;
+              const { description, image: metaImage } = item;
               const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
 
               return (
@@ -23,8 +25,8 @@ export const FeaturesBlock = ({ heading, items }: any) => {
 
                         {metaImage && typeof metaImage !== 'string' && (
                           <Image
-                            src={item.image.url}
-                            alt={item.title}
+                            src={metaImage?.url || ""}
+                            alt={metaImage.alt}
                             width={400}
                             height={250}
                             className="
@@ -45,9 +47,7 @@ export const FeaturesBlock = ({ heading, items }: any) => {
                       {item.title && (
                         <div className="prose">
                           <h3>
-                            {/* <Link className="not-prose" href={href} ref={link.ref}> */}
                             {item.title}
-                            {/* </Link> */}
                           </h3>
                         </div>
                       )}

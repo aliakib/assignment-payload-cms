@@ -6,43 +6,45 @@ import { TestimonialsBlock } from '@/blocks/Testimonials/Component'
 import { CallToActionBlock } from './CallToAction/Component'
 import { FormBuilderBlock } from './FormBuilder/Component'
 
-const blockComponents = {
-  features: FeaturesBlock,
-  testimonials: TestimonialsBlock,
-  cta: CallToActionBlock,
-  formBuilder: FormBuilderBlock,
-}
+export const RenderBlocks = ({ blocks }: { blocks: Page['layout'] }) => {
+  if (!blocks?.length) return null
 
-export const RenderBlocks: React.FC<{
-  blocks: Page['layout'][0][]
-}> = (props) => {
-  const { blocks } = props
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'features':
+            return (
+              <React.Fragment key={index}>
+                <FeaturesBlock {...block} />
+              </React.Fragment>
+            )
 
-  const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
+          case 'testimonials':
+            return (
+              <React.Fragment key={index}>
+                <TestimonialsBlock {...block} />
+              </React.Fragment>
+            )
 
-  if (hasBlocks) {
-    return (
-      <Fragment>
-        {blocks.map((block, index) => {
-          const { blockType } = block
+          case 'cta':
+            return (
+              <React.Fragment key={index}>
+                <CallToActionBlock {...block} />
+              </React.Fragment>
+            )
 
-          if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType]
+          case 'formBuilder':
+            return (
+              <React.Fragment key={index}>
+                <FormBuilderBlock {...block} />
+              </React.Fragment>
+            )
 
-            if (Block) {
-              return (
-                <div className="my-8" key={index}>
-                  {/* @ ts-expect-error there may be some mismatch between the expected types here */}
-                  <Block {...block} disableInnerContainer />
-                </div>
-              )
-            }
-          }
-          return null
-        })}
-      </Fragment>
-    )
-  }
-
-  return null
+          default:
+            return null
+        }
+      })}
+    </>
+  )
 }

@@ -1,9 +1,10 @@
 'use client';
 
+import { TestimonialsBlock as TestimonialsBlockType } from '@/payload-types';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 
-export const TestimonialsBlock = ({ heading, items }: any) => {
+export const TestimonialsBlock: React.FC<TestimonialsBlockType> = ({ heading, items }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -53,7 +54,7 @@ export const TestimonialsBlock = ({ heading, items }: any) => {
           snap-x snap-mandatory pb-4
         "
         >
-          {items.map((item: any, index: number) => (
+          {items.map((item, index: number) => (
             <div
               key={index}
               className="
@@ -75,7 +76,7 @@ export const TestimonialsBlock = ({ heading, items }: any) => {
                 <div className="flex items-center gap-4">
                   {item.image?.url && (
                     <Image
-                      src={item.image.url}
+                      src={item.image?.url}
                       alt={item.name}
                       width={48}
                       height={48}

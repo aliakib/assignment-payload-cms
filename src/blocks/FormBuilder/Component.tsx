@@ -4,29 +4,9 @@ import React, { useState } from 'react'
 import { Field } from './Field'
 import { Toast } from '@/components/Toast'
 import { getClientSideURL } from '@/utilities/getURL'
+import { FormBuilderBlock as FormBuilderBlockType } from '@/payload-types'
 
-type FieldConfig = {
-    label?: string
-    required?: boolean
-    placeholder?: string
-}
-
-type FormBuilderBlockProps = {
-    heading?: string
-    description?: string
-
-    fullName?: FieldConfig
-    email?: FieldConfig
-    mobile?: FieldConfig
-    message?: FieldConfig
-
-    submitButtonLabel?: string
-    actions?: {
-        successMessage?: string
-    }
-}
-
-export const FormBuilderBlock: React.FC<FormBuilderBlockProps> = ({
+export const FormBuilderBlock: React.FC<FormBuilderBlockType> = ({
     heading,
     description,
     fullName,

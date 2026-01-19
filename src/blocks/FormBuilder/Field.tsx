@@ -1,10 +1,10 @@
 type FieldProps = {
-    label?: string
-    required?: boolean
-    placeholder?: string
+    label?: string | null
+    required?: boolean | null
+    placeholder?: string | null
     name: string
     type?: string
-    textarea?: boolean
+    textarea?: boolean | null
 }
 
 export const Field = ({
@@ -31,8 +31,8 @@ export const Field = ({
                 <textarea
                     id={name}
                     name={name}
-                    required={required}
-                    placeholder={placeholder}
+                    required={required || false}
+                    placeholder={placeholder || ""}
                     rows={4}
                     className="
             rounded-md
@@ -51,8 +51,8 @@ export const Field = ({
                     id={name}
                     name={name}
                     type={type}
-                    required={required}
-                    placeholder={placeholder}
+                    required={required || false}
+                    placeholder={placeholder || ""}
                     className="
             rounded-md
             border border-gray-300 dark:border-gray-700

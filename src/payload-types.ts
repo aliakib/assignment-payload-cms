@@ -145,66 +145,10 @@ export interface Page {
     heroImage: string | Media;
   };
   layout: (
-    | {
-        heading: string;
-        items: {
-          title: string;
-          description: string;
-          image: string | Media;
-          id?: string | null;
-        }[];
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'features';
-      }
-    | {
-        heading: string;
-        items: {
-          image: string | Media;
-          name: string;
-          role: string;
-          rating: '1' | '2' | '3' | '4' | '5';
-          message: string;
-          id?: string | null;
-        }[];
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'testimonials';
-      }
+    | FeaturesBlock
+    | TestimonialsBlock
     | CallToActionBlock
-    | {
-        heading: string;
-        description?: string | null;
-        fullName?: {
-          label?: string | null;
-          required?: boolean | null;
-          placeholder?: string | null;
-        };
-        email?: {
-          label?: string | null;
-          required?: boolean | null;
-          placeholder?: string | null;
-        };
-        mobile?: {
-          label?: string | null;
-          required?: boolean | null;
-          placeholder?: string | null;
-        };
-        message?: {
-          label?: string | null;
-          required?: boolean | null;
-          placeholder?: string | null;
-        };
-        submitButtonLabel?: string | null;
-        actions?: {
-          saveToDatabase?: boolean | null;
-          sendEmail?: boolean | null;
-          successMessage?: string | null;
-        };
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'formBuilder';
-      }
+    | FormBuilderBlock
   )[];
   meta?: {
     title?: string | null;
@@ -268,6 +212,72 @@ export interface CallToActionBlock {
   blockName?: string | null;
   blockType: 'cta';
 }
+
+export interface TestimonialsBlock {
+  heading: string;
+  items: {
+    image: Media;
+    name: string;
+    role: string;
+    rating: '1' | '2' | '3' | '4' | '5';
+    message: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonials';
+}
+export interface FeaturesBlock {
+  heading: string;
+  items: {
+    title: string;
+    description: string;
+    image: Media;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'features';
+}
+
+export interface FormBuilderBlock {
+  heading: string;
+  description?: string | null;
+  fullName?: {
+    label?: string | null;
+    required?: boolean | null;
+    placeholder?: string | null;
+  };
+  email?: {
+    label?: string | null;
+    required?: boolean | null;
+    placeholder?: string | null;
+  };
+  mobile?: {
+    label?: string | null;
+    required?: boolean | null;
+    placeholder?: string | null;
+  };
+  message?: {
+    label?: string | null;
+    required?: boolean | null;
+    placeholder?: string | null;
+  };
+  submitButtonLabel?: string | null;
+  actions?: {
+    saveToDatabase?: boolean | null;
+    sendEmail?: boolean | null;
+    successMessage?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'formBuilder';
+}
+
+export type BlockBaseProps = {
+  disableInnerContainer?: boolean
+}
+
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
@@ -297,12 +307,12 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
+  | {
+    id: string;
+    createdAt?: string | null;
+    expiresAt: string;
+  }[]
+  | null;
   password?: string | null;
 }
 /**
@@ -313,14 +323,14 @@ export interface PayloadKv {
   id: string;
   key: string;
   data:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  | {
+    [k: string]: unknown;
+  }
+  | unknown[]
+  | string
+  | number
+  | boolean
+  | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -332,23 +342,23 @@ export interface PayloadJob {
    * Input data provided to the job
    */
   input?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  | {
+    [k: string]: unknown;
+  }
+  | unknown[]
+  | string
+  | number
+  | boolean
+  | null;
   taskStatus?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  | {
+    [k: string]: unknown;
+  }
+  | unknown[]
+  | string
+  | number
+  | boolean
+  | null;
   completedAt?: string | null;
   totalTried?: number | null;
   /**
@@ -359,54 +369,54 @@ export interface PayloadJob {
    * If hasError is true, this is the error that caused it
    */
   error?:
+  | {
+    [k: string]: unknown;
+  }
+  | unknown[]
+  | string
+  | number
+  | boolean
+  | null;
+  /**
+   * Task execution log
+   */
+  log?:
+  | {
+    executedAt: string;
+    completedAt: string;
+    taskSlug: 'inline' | 'schedulePublish';
+    taskID: string;
+    input?:
     | {
-        [k: string]: unknown;
-      }
+      [k: string]: unknown;
+    }
     | unknown[]
     | string
     | number
     | boolean
     | null;
-  /**
-   * Task execution log
-   */
-  log?:
+    output?:
     | {
-        executedAt: string;
-        completedAt: string;
-        taskSlug: 'inline' | 'schedulePublish';
-        taskID: string;
-        input?:
-          | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
-        output?:
-          | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
-        state: 'failed' | 'succeeded';
-        error?:
-          | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
-        id?: string | null;
-      }[]
+      [k: string]: unknown;
+    }
+    | unknown[]
+    | string
+    | number
+    | boolean
     | null;
+    state: 'failed' | 'succeeded';
+    error?:
+    | {
+      [k: string]: unknown;
+    }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+    id?: string | null;
+  }[]
+  | null;
   taskSlug?: ('inline' | 'schedulePublish') | null;
   queue?: string | null;
   waitUntil?: string | null;
@@ -421,22 +431,22 @@ export interface PayloadJob {
 export interface PayloadLockedDocument {
   id: string;
   document?:
-    | ({
-        relationTo: 'pages';
-        value: string | Page;
-      } | null)
-    | ({
-        relationTo: 'form-submissions';
-        value: string | FormSubmission;
-      } | null)
-    | ({
-        relationTo: 'users';
-        value: string | User;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: string | Media;
-      } | null);
+  | ({
+    relationTo: 'pages';
+    value: string | Page;
+  } | null)
+  | ({
+    relationTo: 'form-submissions';
+    value: string | FormSubmission;
+  } | null)
+  | ({
+    relationTo: 'users';
+    value: string | User;
+  } | null)
+  | ({
+    relationTo: 'media';
+    value: string | Media;
+  } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
@@ -457,14 +467,14 @@ export interface PayloadPreference {
   };
   key?: string | null;
   value?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  | {
+    [k: string]: unknown;
+  }
+  | unknown[]
+  | string
+  | number
+  | boolean
+  | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -486,100 +496,100 @@ export interface PayloadMigration {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   hero?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-        heroImage?: T;
-      };
+  | T
+  | {
+    title?: T;
+    subtitle?: T;
+    heroImage?: T;
+  };
   layout?:
+  | T
+  | {
+    features?:
     | T
     | {
-        features?:
-          | T
-          | {
-              heading?: T;
-              items?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    image?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        testimonials?:
-          | T
-          | {
-              heading?: T;
-              items?:
-                | T
-                | {
-                    image?: T;
-                    name?: T;
-                    role?: T;
-                    rating?: T;
-                    message?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        cta?: T | CallToActionBlockSelect<T>;
-        formBuilder?:
-          | T
-          | {
-              heading?: T;
-              description?: T;
-              fullName?:
-                | T
-                | {
-                    label?: T;
-                    required?: T;
-                    placeholder?: T;
-                  };
-              email?:
-                | T
-                | {
-                    label?: T;
-                    required?: T;
-                    placeholder?: T;
-                  };
-              mobile?:
-                | T
-                | {
-                    label?: T;
-                    required?: T;
-                    placeholder?: T;
-                  };
-              message?:
-                | T
-                | {
-                    label?: T;
-                    required?: T;
-                    placeholder?: T;
-                  };
-              submitButtonLabel?: T;
-              actions?:
-                | T
-                | {
-                    saveToDatabase?: T;
-                    sendEmail?: T;
-                    successMessage?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-      };
-  meta?:
-    | T
-    | {
+      heading?: T;
+      items?:
+      | T
+      | {
         title?: T;
-        image?: T;
         description?: T;
+        image?: T;
+        id?: T;
       };
+      id?: T;
+      blockName?: T;
+    };
+    testimonials?:
+    | T
+    | {
+      heading?: T;
+      items?:
+      | T
+      | {
+        image?: T;
+        name?: T;
+        role?: T;
+        rating?: T;
+        message?: T;
+        id?: T;
+      };
+      id?: T;
+      blockName?: T;
+    };
+    cta?: T | CallToActionBlockSelect<T>;
+    formBuilder?:
+    | T
+    | {
+      heading?: T;
+      description?: T;
+      fullName?:
+      | T
+      | {
+        label?: T;
+        required?: T;
+        placeholder?: T;
+      };
+      email?:
+      | T
+      | {
+        label?: T;
+        required?: T;
+        placeholder?: T;
+      };
+      mobile?:
+      | T
+      | {
+        label?: T;
+        required?: T;
+        placeholder?: T;
+      };
+      message?:
+      | T
+      | {
+        label?: T;
+        required?: T;
+        placeholder?: T;
+      };
+      submitButtonLabel?: T;
+      actions?:
+      | T
+      | {
+        saveToDatabase?: T;
+        sendEmail?: T;
+        successMessage?: T;
+      };
+      id?: T;
+      blockName?: T;
+    };
+  };
+  meta?:
+  | T
+  | {
+    title?: T;
+    image?: T;
+    description?: T;
+  };
   publishedAt?: T;
   generateSlug?: T;
   slug?: T;
@@ -595,15 +605,15 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
   heading?: T;
   description?: T;
   link?:
-    | T
-    | {
-        type?: T;
-        newTab?: T;
-        reference?: T;
-        url?: T;
-        label?: T;
-        appearance?: T;
-      };
+  | T
+  | {
+    type?: T;
+    newTab?: T;
+    reference?: T;
+    url?: T;
+    label?: T;
+    appearance?: T;
+  };
   id?: T;
   blockName?: T;
 }
@@ -634,12 +644,12 @@ export interface UsersSelect<T extends boolean = true> {
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
+  | T
+  | {
+    id?: T;
+    createdAt?: T;
+    expiresAt?: T;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -679,18 +689,18 @@ export interface PayloadJobsSelect<T extends boolean = true> {
   hasError?: T;
   error?: T;
   log?:
-    | T
-    | {
-        executedAt?: T;
-        completedAt?: T;
-        taskSlug?: T;
-        taskID?: T;
-        input?: T;
-        output?: T;
-        state?: T;
-        error?: T;
-        id?: T;
-      };
+  | T
+  | {
+    executedAt?: T;
+    completedAt?: T;
+    taskSlug?: T;
+    taskID?: T;
+    input?: T;
+    output?: T;
+    state?: T;
+    error?: T;
+    id?: T;
+  };
   taskSlug?: T;
   queue?: T;
   waitUntil?: T;
@@ -738,20 +748,20 @@ export interface Header {
   id: string;
   logo: string | Media;
   navItems?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: string | Page;
-          } | null;
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  | {
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?: {
+        relationTo: 'pages';
+        value: string | Page;
+      } | null;
+      url?: string | null;
+      label: string;
+    };
+    id?: string | null;
+  }[]
+  | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -762,19 +772,19 @@ export interface Header {
 export interface HeaderSelect<T extends boolean = true> {
   logo?: T;
   navItems?:
+  | T
+  | {
+    link?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        id?: T;
-      };
+      type?: T;
+      newTab?: T;
+      reference?: T;
+      url?: T;
+      label?: T;
+    };
+    id?: T;
+  };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -806,5 +816,5 @@ export interface Auth {
 
 
 declare module 'payload' {
-  export interface GeneratedTypes extends Config {}
+  export interface GeneratedTypes extends Config { }
 }
