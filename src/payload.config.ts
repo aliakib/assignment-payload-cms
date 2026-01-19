@@ -4,6 +4,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+// import { s3Storage } from '@payloadcms/storage-s3'
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -34,7 +36,28 @@ export default buildConfig({
     url: process.env.DATABASE_URL || '',
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    // s3Storage({
+    //   collections: {
+    //     media: true,
+    //   },
+    //   bucket: process.env.AWS_S3_BUCKET || "",
+    //   config: {
+    //     region: process.env.AWS_REGION,
+    //     credentials: {
+    //       accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    //       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    //     },
+    //   },
+    // }),
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        media: true
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN
+    })
+  ],
   localization: {
     locales: ['en', 'hi'],
     defaultLocale: 'en',

@@ -12,6 +12,15 @@ const nextConfig = {
 
     return webpackConfig
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.amazonaws.com',
+      },
+    ],
+  },
+
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
