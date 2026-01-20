@@ -67,7 +67,7 @@ export default async function Page({ params: paramsPromise, searchParams: search
   const { hero, layout } = page
 
   return (
-    <article>
+    <article className='pb-12'>
       <PageClient />
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
