@@ -31,7 +31,7 @@ export default async function HomePage() {
         {!user && <h1>Welcome to your new project.</h1>}
         {user && <h1>Welcome back, {user.email}</h1>}
         <div className="links">
-          <Link className="admin" href="/supercars">Expore Super Cars Page</Link>
+          <Link className="admin animate-zoom-in-out" href="/supercars">Expore Super Cars Page</Link>
           <a
             className="admin"
             href={payloadConfig.routes.admin}

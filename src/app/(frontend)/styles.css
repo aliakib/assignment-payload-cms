@@ -305,3 +305,16 @@ svg {
     transform: translateY(0);
   }
 }
+
+.animate-zoom-in-out {
+  animation: animateZoomInOut 1s linear infinite;
+}
+
+@keyframes animateZoomInOut {
+  0%, 100% {
+    transform: scale(0.95);
+  } 
+  50% {
+    transform: scale(1);
+  }
+}
