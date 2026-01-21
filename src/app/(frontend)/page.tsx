@@ -1,12 +1,13 @@
 import { headers as getHeaders } from 'next/headers.js'
 import Image from 'next/image'
 import { getPayload } from 'payload'
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
 import './styles.css'
 import Link from 'next/link'
+import AnimatedLink from '@/components/AnimatedLink'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -15,6 +16,16 @@ export default async function HomePage() {
   const { user } = await payload.auth({ headers })
 
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    console.log(e)
+    e.currentTarget.classList.remove('animate-zoom-in-out')
+  }
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    console.log(e)
+    e.currentTarget.classList.add('animate-zoom-in-out')
+  }
 
   return (
     <div className="home">
@@ -31,7 +42,8 @@ export default async function HomePage() {
         {!user && <h1>Welcome to your new project.</h1>}
         {user && <h1>Welcome back, {user.email}</h1>}
         <div className="links">
-          <Link className="admin animate-zoom-in-out" href="/supercars">Expore Super Cars Page</Link>
+          <AnimatedLink to="/supercars" />
+
           <a
             className="admin"
             href={payloadConfig.routes.admin}
